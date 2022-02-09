@@ -1,0 +1,52 @@
+{
+  "name": "chrome-extension-vue3-ts-template",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve:popup": "vue-cli-service serve src/ui/popup.ts",
+    "serve": "npm run serve:popup",
+    "serve:options": "vue-cli-service serve src/ui/options.ts",
+    "build:ext": "webpack --config webpack.prod.js",
+    "build:options": "vue-cli-service build --dest dist/ui/options src/ui/options.ts",
+    "build:popup": "vue-cli-service build --dest dist/ui/popup src/ui/popup.ts",
+    "copy:icons": "copyfiles manifest.json icons/** dist/",
+    "build": "npm run build:ext && npm run build:options && npm run build:popup &&npm run copy:icons",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "core-js": "^3.21.0",
+    "vue": "^3.2.30",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.0-0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/chrome": "^0.0.171",
+    "@types/mocha": "^5.2.4",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-plugin-unit-mocha": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.2.30",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "@vue/eslint-config-typescript": "^7.0.0",
+    "@vue/test-utils": "^2.0.0-0",
+    "chai": "^4.3.6",
+    "copyfiles": "^2.4.1",
+    "eslint": "^6.7.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.0.0",
+    "prettier": "^2.2.1",
+    "sass": "^1.49.7",
+    "sass-loader": "^8.0.2",
+    "typescript": "~4.1.5",
+    "webpack-cli": "^4.9.2",
+    "webpack-merge": "^5.8.0"
+  }
+}

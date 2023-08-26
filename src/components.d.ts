@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Logo: typeof import('./components/Logo.vue')['default']
+    MaterialSymbolsExtension: typeof import('~icons/material-symbols/extension')['default']
     SharedSubtitle: typeof import('./components/SharedSubtitle.vue')['default']
   }
 }

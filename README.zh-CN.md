@@ -7,7 +7,6 @@
 <a href="README.md">English</a> | <b>简体中文</b>
 </div>
 
-
 ## 特点
 
 - ⚡️ **即时 HMR**: 在开发中使用 Vite 的快速热模块替换，无需手动刷新页面。
@@ -31,7 +30,6 @@
 - 🌪️ [WebStorm](https://www.jetbrains.com/webstorm/)
 - 💻 [VSCode](https://code.visualstudio.com/)
 - 💡 [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
-
 
 ## 快来试试吧！！
 
@@ -66,4 +64,3 @@ pnpm run build
 ```
 
 然后你会看到用于发布的 `dist` 文件夹被生成。
-

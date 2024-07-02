@@ -31,7 +31,6 @@
 - 💻 [VSCode](https://code.visualstudio.com/)
 - 💡 [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
 
-
 ## Try it now!
 
 ### GitHub Template
@@ -65,4 +64,3 @@ pnpm run build
 ```
 
 And you will see the generated file in `dist` that ready to be served.
-

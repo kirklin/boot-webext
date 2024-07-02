@@ -87,6 +87,7 @@ export default defineConfig(({ command }) => ({
     hmr: {
       host: "localhost",
     },
+    origin: `http://localhost:${port}`,
   },
   build: {
     watch: isDev
@@ -103,6 +104,7 @@ export default defineConfig(({ command }) => ({
       input: {
         options: r("src/options/index.html"),
         popup: r("src/popup/index.html"),
+        sidepanel: r("src/sidepanel/index.html"),
       },
     },
   },

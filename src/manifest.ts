@@ -38,6 +38,7 @@ export async function getManifest() {
       "tabs",
       "storage",
       "activeTab",
+      "sidePanel",
     ],
     host_permissions: ["*://*/*"],
     content_scripts: [
@@ -59,10 +60,22 @@ export async function getManifest() {
     content_security_policy: {
       extension_pages: isDev
         // this is required on dev for Vite script to load
-        ? `script-src 'self' http://localhost:${port}; object-src 'self'`
+        ? `script-src \'self\' http://localhost:${port}; object-src \'self\'`
         : "script-src 'self'; object-src 'self'",
     },
   };
+
+  // add sidepanel
+  if (isFirefox) {
+    manifest.sidebar_action = {
+      default_panel: "dist/sidepanel/index.html",
+    };
+  } else {
+    // the sidebar_action does not work for chromium based
+    manifest.side_panel = {
+      default_path: "dist/sidepanel/index.html",
+    };
+  }
 
   // FIXME: not work in MV3
   if (isDev && false) {

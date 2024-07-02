@@ -41,7 +41,7 @@ let previousTabId = 0;
  * @ignore communication example: send previous tab title from background page
  * @ignore see shim.d.ts for type declaration
  *
- * @param {Object} info - Information about the activated tab.
+ * @param {object} info - Information about the activated tab.
  * @param {number} info.tabId - The ID of the activated tab.
  */
 browser.tabs.onActivated.addListener(async ({ tabId }) => {
@@ -70,7 +70,7 @@ browser.tabs.onActivated.addListener(async ({ tabId }) => {
  * Handles the "get-current-tab" message.
  * 处理 "get-current-tab" 消息。
  *
- * @returns {Object} An object containing the title of the current tab.
+ * @returns {object} An object containing the title of the current tab.
  */
 onMessage("get-current-tab", async () => {
   try {

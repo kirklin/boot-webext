@@ -4,7 +4,7 @@ import { isFirefox, isForbiddenUrl } from "~/env";
  * Listens to the `webNavigation.onCommitted` event and injects the latest scripts into the tab.
  * 监听 `webNavigation.onCommitted` 事件，并将最新脚本注入标签页。
  *
- * @param {Object} details - Details of the navigation event.
+ * @param {object} details - Details of the navigation event.
  *                          导航事件的详细信息。
  */
 browser.webNavigation.onCommitted.addListener(({ tabId, frameId, url }) => {

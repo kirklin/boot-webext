@@ -1,8 +1,3 @@
-import { StorageSerializers } from "@vueuse/core";
-import { pausableWatch, toValue, tryOnScopeDispose } from "@vueuse/shared";
-import { ref, shallowRef } from "vue-demi";
-import { storage } from "webextension-polyfill";
-
 import type {
   StorageLikeAsync,
   UseStorageAsyncOptions,
@@ -10,6 +5,11 @@ import type {
 import type { MaybeRefOrGetter, RemovableRef } from "@vueuse/shared";
 import type { Ref } from "vue-demi";
 import type { Storage } from "webextension-polyfill";
+
+import { StorageSerializers } from "@vueuse/core";
+import { pausableWatch, toValue, tryOnScopeDispose } from "@vueuse/shared";
+import { ref, shallowRef } from "vue-demi";
+import { storage } from "webextension-polyfill";
 
 export type WebExtensionStorageOptions<T> = UseStorageAsyncOptions<T>;
 
@@ -46,7 +46,7 @@ const storageInterface: StorageLikeAsync = {
   async getItem(key: string) {
     const storedData = await storage.local.get(key);
 
-    return storedData[key];
+    return storedData[key] as string;
   },
 };
 

@@ -1,6 +1,6 @@
-import fs from "fs-extra";
 import type { Manifest } from "webextension-polyfill";
 import type PkgType from "../package.json";
+import fs from "fs-extra";
 import { isDev, isFirefox, port, r } from "../scripts/utils";
 
 export async function getManifest() {
@@ -72,7 +72,7 @@ export async function getManifest() {
     };
   } else {
     // the sidebar_action does not work for chromium based
-    manifest.side_panel = {
+    (manifest as any).side_panel = {
       default_path: "dist/sidepanel/index.html",
     };
   }

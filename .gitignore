@@ -4,6 +4,16 @@
 dist
 dist-ssr
 *.local
+.DS_Store
+.idea/
+.vite-ssg-dist
+.vite-ssg-temp
+*.crx
+*.log
+*.pem
+*.xpi
+*.zip
+extension/manifest.json
 
 ######################
 # Node

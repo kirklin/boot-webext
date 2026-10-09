@@ -1,24 +1,11 @@
 {
+  "extends": "./.wxt/tsconfig.json",
   "compilerOptions": {
-    "incremental": false,
-    "target": "es2016",
-    "jsx": "preserve",
-    "lib": ["DOM", "ESNext"],
-    "baseUrl": ".",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    // The shadcn CLI resolves the paths generated in `.wxt/` against this file,
+    // so the `~` alias it writes components to is repeated here.
     "paths": {
-      "~/*": ["src/*"]
-    },
-    "resolveJsonModule": true,
-    "types": [
-      "vite/client"
-    ],
-    "strict": true,
-    "noUnusedLocals": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
-  },
-  "exclude": ["dist", "node_modules"]
+      "~/*": ["./src/*"]
+    }
+  }
 }

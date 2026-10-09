@@ -1,15 +1,9 @@
-/**
- * @see {@link https://playwright.dev/docs/chrome-extensions Chrome extensions | Playwright}
- */
 import { defineConfig } from "@playwright/test";
 
+// The tests load the production build from `.output/chrome-mv3`, which
+// `pnpm test:e2e` builds before running them.
 export default defineConfig({
   testDir: "./e2e",
-  retries: 2,
-  webServer: {
-    command: "npm run dev",
-    // start e2e test after the Vite server is fully prepared
-    url: "http://localhost:3303/popup/main.ts",
-    reuseExistingServer: true,
-  },
+  fullyParallel: true,
+  reporter: "list",
 });

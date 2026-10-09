@@ -14,13 +14,24 @@
 
 - One codebase builds Manifest V3 extensions for Chrome, Edge and Firefox. The manifest is generated from the files in `src/entrypoints`.
 - A popup, an options page, a side panel and a content script UI, all written in React 19 with shadcn/ui components.
-- The content script UI renders in a shadow root, so the page's styles and the extension's styles never mix. Popovers portal into the shadow root, and `rem` units are converted to `px` at build time, so the UI keeps its size on pages that change their root font size.
+- The content script UI renders in a shadow root, so the page's styles and the extension's styles never mix. Popovers, dialogs, selects and tooltips portal into the shadow root, and `rem` units are converted to `px` at build time, so the UI keeps its size on pages that change their root font size.
 - Typed messaging between the background and the other contexts with [@webext-core/messaging](https://webext-core.aklinker1.io/messaging/installation).
 - Typed storage with [WXT's storage API](https://wxt.dev/storage) and a `useStorageItem` hook. A value changed in one context shows up in every other context.
 - Light, dark and system themes. The choice is kept in extension storage and applies to the pages and the content script UI.
 - Icons from [lucide](https://lucide.dev/) and from any [Iconify](https://icon-sets.iconify.design/) icon set through `@iconify/tailwind4`.
 - Unit tests with Vitest, and end-to-end tests with Playwright that load the built extension into Chromium.
 - ESLint with [@kirklin/eslint-config](https://github.com/kirklin/eslint-config), run on every commit by simple-git-hooks and lint-staged.
+
+## Examples
+
+The template comes with examples of features that need extra work in an extension. Each one has end-to-end tests in `e2e/examples.spec.ts`.
+
+- A dialog, a select and a tooltip in the content script UI (`src/entrypoints/content`). While the dialog is open, focus stays inside it, Escape closes it, the page behind it cannot scroll, and keys typed into it never reach the page. Radix finds the focused element through `document.activeElement`, which inside a shadow root only returns the shadow host; `followFocusIntoShadowRoots()` in `src/lib/shadow-root-focus.ts` makes it return the element inside.
+- A reading time badge (`src/entrypoints/reading-time.content`) that appears at the top of the page's first `<article>` whenever there is one, and appears again after a single-page app changes its route.
+- A script in the page's own JavaScript world (`src/entrypoints/page-requests.content.ts`). It runs before the page's scripts, wraps `fetch` and `XMLHttpRequest`, and reports the page's requests to the content script through events on `window`. The page can fire the same events, so the content script checks every report before using it. The panel lists the latest requests, and the badge on the extension icon shows how many there were.
+- Context menus, keyboard shortcuts and the icon badge (`src/entrypoints/background.ts`). Text selected on a page can be sent to the side panel from the context menu, `Alt+Shift+B` shows or hides the panel on the page, and `Alt+Shift+L` copies the page link as Markdown.
+- A long-lived port that streams tab activity to the side panel. The browser stops an idle service worker, which closes the port; the side panel then connects again, and that starts the service worker back up.
+- Writing to the clipboard from the background. Chrome's service worker has no DOM, so an offscreen document writes the text (`src/entrypoints/offscreen`); Firefox's background page writes it directly.
 
 ## Tech Stack
 
@@ -51,7 +62,7 @@ pnpm dev
 
 `pnpm dev` opens Chrome with the extension installed and reloads it when files change. `pnpm dev:firefox` does the same in Firefox.
 
-Before publishing, change the extension name in `wxt.config.ts`, the description and version in `package.json`, the icons in `public/icon`, and the Firefox add-on ID (`browser_specific_settings.gecko.id`) in `wxt.config.ts`.
+Before publishing, change the extension name in `wxt.config.ts`, the description and version in `package.json`, the icons in `public/icon`, and the Firefox add-on ID (`browser_specific_settings.gecko.id`) in `wxt.config.ts`. Remove the examples you do not need, together with the permissions and commands they use in `wxt.config.ts`.
 
 ## Scripts
 
@@ -72,24 +83,24 @@ The end-to-end tests run on the Chromium that Playwright downloads. Install it o
 
 ## Project Structure
 
-| Path                    | Contents                                                  |
-| ----------------------- | --------------------------------------------------------- |
-| `src/entrypoints`       | Background, content script, popup, options and side panel |
-| `src/components`        | Shared components                                         |
-| `src/components/ui`     | Components added by the shadcn CLI                        |
-| `src/hooks`             | Hooks for storage, the active tab, the theme and portals  |
-| `src/lib`               | Messaging protocol and storage items                      |
-| `src/styles/global.css` | Tailwind CSS and the shadcn/ui theme                      |
-| `public`                | Icons and other files copied as they are                  |
-| `e2e`                   | Playwright tests                                          |
+| Path                    | Contents                                                                       |
+| ----------------------- | ------------------------------------------------------------------------------ |
+| `src/entrypoints`       | Background, content scripts, popup, options, side panel and offscreen document |
+| `src/components`        | Shared components                                                              |
+| `src/components/ui`     | Components added by the shadcn CLI                                             |
+| `src/hooks`             | Hooks for storage, the active tab, tab activity, the theme and portals         |
+| `src/lib`               | Messaging protocol, storage items and the code the entrypoints share           |
+| `src/styles/global.css` | Tailwind CSS and the shadcn/ui theme                                           |
+| `public`                | Icons and other files copied as they are                                       |
+| `e2e`                   | Playwright tests and the local site they run the content scripts on            |
 
 ## Adding shadcn/ui Components
 
 ```bash
-pnpm shadcn add dialog
+pnpm shadcn add dropdown-menu
 ```
 
-Components are added to `src/components/ui`. A component that renders through a portal, such as a dialog, select, dropdown menu or tooltip, needs one change before it works in the content script: pass `usePortalContainer()` to its `Portal`, as `src/components/ui/popover.tsx` does. On extension pages the hook returns nothing, and the portal stays on `document.body`.
+Components are added to `src/components/ui`. A component that renders through a portal, such as a dropdown menu, needs one change before it works in the content script: pass `usePortalContainer()` to its `Portal`, as the dialog, popover, select and tooltip in that folder do. On extension pages the hook returns nothing, and the portal stays on `document.body`.
 
 ## License
 

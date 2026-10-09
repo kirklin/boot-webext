@@ -1,5 +1,4 @@
 import type { Theme } from "~/lib/storage";
-import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
 import { PageHeader } from "~/components/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
@@ -8,12 +7,7 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { useStorageItem } from "~/hooks/use-storage-item";
 import { useTheme } from "~/hooks/use-theme";
 import { storageDemo } from "~/lib/storage";
-
-const themes = [
-  { value: "light", label: "Light", icon: SunIcon },
-  { value: "dark", label: "Dark", icon: MoonIcon },
-  { value: "system", label: "System", icon: MonitorIcon },
-] satisfies { value: Theme; label: string; icon: typeof SunIcon }[];
+import { THEMES } from "~/lib/themes";
 
 export default function App() {
   const [storageValue, setStorageValue, storageReady] = useStorageItem(storageDemo);
@@ -47,7 +41,7 @@ export default function App() {
               disabled={!themeReady}
               onValueChange={(value: Theme | "") => value && void setTheme(value)}
             >
-              {themes.map(({ value, label, icon: Icon }) => (
+              {THEMES.map(({ value, label, icon: Icon }) => (
                 <ToggleGroupItem key={value} value={value}>
                   <Icon />
                   {label}

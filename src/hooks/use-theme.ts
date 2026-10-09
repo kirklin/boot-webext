@@ -4,6 +4,8 @@ import { createContext, use } from "react";
 interface ThemeState {
   theme: Theme;
   setTheme: (theme: Theme) => Promise<void>;
+  /** Whether the stored theme has been read; `setTheme` throws before that. */
+  ready: boolean;
 }
 
 export const ThemeContext = createContext<ThemeState | undefined>(undefined);

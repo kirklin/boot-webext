@@ -17,7 +17,7 @@ const themes = [
 
 export default function App() {
   const [storageValue, setStorageValue, storageReady] = useStorageItem(storageDemo);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, ready: themeReady } = useTheme();
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-6 px-4 py-10">
@@ -44,6 +44,7 @@ export default function App() {
               variant="outline"
               aria-labelledby="theme-label"
               value={theme}
+              disabled={!themeReady}
               onValueChange={(value: Theme | "") => value && void setTheme(value)}
             >
               {themes.map(({ value, label, icon: Icon }) => (

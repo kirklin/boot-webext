@@ -39,7 +39,7 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children, target }: ThemeProviderProps) {
-  const [theme, setTheme] = useStorageItem(themePreference);
+  const [theme, setTheme, ready] = useStorageItem(themePreference);
 
   useLayoutEffect(() => {
     const apply = () => {
@@ -59,7 +59,7 @@ export function ThemeProvider({ children, target }: ThemeProviderProps) {
     return () => mediaQuery.removeEventListener("change", apply);
   }, [target, theme]);
 
-  const value = useMemo(() => ({ theme, setTheme }), [theme, setTheme]);
+  const value = useMemo(() => ({ theme, setTheme, ready }), [theme, setTheme, ready]);
 
   return <ThemeContext value={value}>{children}</ThemeContext>;
 }

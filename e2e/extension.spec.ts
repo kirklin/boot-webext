@@ -57,6 +57,9 @@ test("background tells the content script which tab was active before", async ({
   await pageA.goto(`${siteUrl}/a`);
   const pageB = await context.newPage();
   await pageB.goto(`${siteUrl}/b`);
+  // The background only tells a tab whose content script is already listening.
+  await expect(pageA.getByRole("button", { name: "Boot WebExt" })).toBeVisible();
+  await expect(pageB.getByRole("button", { name: "Boot WebExt" })).toBeVisible();
 
   await pageA.bringToFront();
   await pageB.bringToFront();
